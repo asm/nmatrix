@@ -58,32 +58,35 @@ if /cygwin|mingw/ =~ RUBY_PLATFORM
 end
 
 # Fix compiler pairing
-if CONFIG['CC'] == 'clang' && CONFIG['CXX'] != 'clang++'
-  puts "WARNING: CONFIG['CXX'] is not 'clang++' even though CONFIG['CC'] is 'clang'.",
-       "WARNING: Force to use clang++ together with clang."
+#if CONFIG['CC'] == 'clang' && CONFIG['CXX'] != 'clang++'
+#  puts "WARNING: CONFIG['CXX'] is not 'clang++' even though CONFIG['CC'] is 'clang'.",
+#       "WARNING: Force to use clang++ together with clang."
+#
+#  CONFIG['CXX'] = 'g++'
+#end
+#
+#if CONFIG['CXX'] == 'clang++'
+#  $CXX_STANDARD = 'c++11'
+#else
+#  version = gplusplus_version
+#  if version < '4.3.0' && CONFIG['CXX'] == 'g++'  # see if we can find a newer G++, unless it's been overridden by user
+#    if !find_newer_gplusplus
+#      raise("You need a version of g++ which supports -std=c++0x or -std=c++11. If you're on a Mac and using Homebrew, we recommend using mac-brew-gcc.sh to install a more recent g++.")
+#    end
+#    version = gplusplus_version
+#  end
+#
+#  if version < '4.7.0'
+#    $CXX_STANDARD = 'c++0x'
+#  else
+#    $CXX_STANDARD = 'c++11'
+#  end
+#  puts "using C++ standard... #{$CXX_STANDARD}"
+#  puts "g++ reports version... " + `#{CONFIG['CXX']} --version|head -n 1|cut -f 3 -d " "`
+#end
 
-  CONFIG['CXX'] = 'clang++'
-end
-
-if CONFIG['CXX'] == 'clang++'
-  $CXX_STANDARD = 'c++11'
-else
-  version = gplusplus_version
-  if version < '4.3.0' && CONFIG['CXX'] == 'g++'  # see if we can find a newer G++, unless it's been overridden by user
-    if !find_newer_gplusplus
-      raise("You need a version of g++ which supports -std=c++0x or -std=c++11. If you're on a Mac and using Homebrew, we recommend using mac-brew-gcc.sh to install a more recent g++.")
-    end
-    version = gplusplus_version
-  end
-
-  if version < '4.7.0'
-    $CXX_STANDARD = 'c++0x'
-  else
-    $CXX_STANDARD = 'c++11'
-  end
-  puts "using C++ standard... #{$CXX_STANDARD}"
-  puts "g++ reports version... " + `#{CONFIG['CXX']} --version|head -n 1|cut -f 3 -d " "`
-end
+$CXX_STANDARD = 'c++11'
+CONFIG['CXX'] = 'g++'
 
 # For release, these next two should both be changed to -O3.
 $CFLAGS += " -O3 "
